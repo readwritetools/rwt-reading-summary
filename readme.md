@@ -7,13 +7,13 @@
 
 
 <figure>
-	<img src='/img/components/reading-points/reading-points-pexels-wallace-chuck-3109167.jpg' width='100%' />
+	<img src='/img/components/reading-summary/reading-summary-pexels-1555354.jpg' width='100%' />
 	<figcaption></figcaption>
 </figure>
 
-# Reading Points
+# Reading Summary
 
-## Percentage read, reading time & points
+## Display a visitor's reading history
 
 
 <address>
