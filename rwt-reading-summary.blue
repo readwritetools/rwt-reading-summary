@@ -1,0 +1,29 @@
+!blue 2.0
+//=============================================================================
+//
+//  File:         /node_modules/rwt-reading-summary/rwt-reading-summary.blue
+//  Language:     Blue-phrase
+//  Copyright:    Read Write Tools © 2020
+//  License:      MIT
+//  Initial date: Jan 15, 2020
+//  Contents:     Display reader's experience points and reading history
+//
+//=============================================================================
+
+!option --fragment
+
+div#dialog ^display:none {
+	div #caption-bar {
+		p#caption Reader's Card
+		button#close-button ✕
+	}
+	div #content {
+		p <<.label Reading time>> <<.value #reading-time>>
+		p <<.label Experience points>> <<.value #points>>
+		p <<.label Documents read>> <<.value #page-count>>
+		table #readers-table
+	}
+	div #footer {
+		p #message-text Your reading time and experience points 
+	}
+}
