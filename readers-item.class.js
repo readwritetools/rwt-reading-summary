@@ -11,30 +11,32 @@
 
 export default class ReadersItem {
 
-	constructor(arg0, arg1, arg2, arg3, arg4, arg5) {
+	constructor(arg0, arg1, arg2, arg3, arg4, arg5, arg6) {
 		if (arg0.constructor.name == 'Object')
 			this.copyConstructor(arg0);
 		else
-			this.normalConstructor(arg0, arg1, arg2, arg3, arg4, arg5);
+			this.normalConstructor(arg0, arg1, arg2, arg3, arg4, arg5, arg6 );
 	}
 
 	copyConstructor(rhs) {
-		this.title			= rhs.title;
-		this.skillCategory 	= rhs.skillCategory;
-		this.skillLevel 	= rhs.skillLevel;
-		this.skillPoints 	= rhs.skillPoints;
-		this.percentRead 	= rhs.percentRead;
-		this.readingTime	= rhs.readingTime;
+		this.title					= rhs.title;
+		this.skillCategory 			= rhs.skillCategory;
+		this.skillLevel 			= rhs.skillLevel;
+		this.skillPoints 			= rhs.skillPoints;
+		this.suggestedReadingTime 	= rhs.suggestedReadingTime;
+		this.percentRead 			= rhs.percentRead;
+		this.readingTime			= rhs.readingTime;
 		Object.seal(this);
 	}
 	
-	normalConstructor(title, skillCategory, skillLevel, skillPoints, percentRead, readingTime) {
-		this.title 			= title;
-		this.skillCategory 	= skillCategory;
-		this.skillLevel 	= skillLevel;
-		this.skillPoints 	= skillPoints;
-		this.percentRead 	= percentRead;		// 0.0 to 1.0
-		this.readingTime	= readingTime;		// integer time in seconds
+	normalConstructor(title, skillCategory, skillLevel, skillPoints, suggestedReadingTime, percentRead, readingTime) {
+		this.title 					= title;
+		this.skillCategory 			= skillCategory;
+		this.skillLevel 			= skillLevel;
+		this.skillPoints 			= skillPoints;
+		this.suggestedReadingTime 	= suggestedReadingTime;
+		this.percentRead 			= percentRead;		// 0.0 to 1.0
+		this.readingTime			= readingTime;		// integer time in seconds
 		Object.seal(this);
 	}
 }

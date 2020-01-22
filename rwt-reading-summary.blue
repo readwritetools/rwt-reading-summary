@@ -18,10 +18,10 @@ div#dialog ^display:none {
 		button#close-button ✕
 	}
 	div #content {
+		table #readers-table
 		p <<.label Reading time>> <<.value #reading-time>>
 		p <<.label Experience points>> <<.value #points>>
 		p <<.label Documents read>> <<.value #page-count>>
-		table #readers-table
 	}
 	div #footer {
 		p #message-text Your reading time and experience points 

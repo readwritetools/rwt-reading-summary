@@ -59,12 +59,12 @@ export default class ReadersData {
 	
 	//^ Add a page to the list of readersItems, if it doesn't already exist
 	//  or update it when the user revisits it
-	addPage(filePath, title, skillCategory, skillLevel, skillPoints, percentRead, readingTime) {		
+	addPage(filePath, title, skillCategory, skillLevel, skillPoints, suggestedReadingTime, percentRead, readingTime) {		
 		var readersItem = this.itemsMap.get(filePath);
 		
 		// first time visting this page
 		if (readersItem == undefined) {
-			readersItem = new ReadersItem(title, skillCategory, skillLevel, skillPoints, percentRead, readingTime);
+			readersItem = new ReadersItem(title, skillCategory, skillLevel, skillPoints, suggestedReadingTime, percentRead, readingTime);
 			this.itemsMap.set(filePath, readersItem);
 		}
 		
