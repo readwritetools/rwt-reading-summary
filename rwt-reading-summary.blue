@@ -14,14 +14,34 @@
 
 div#dialog ^display:none {
 	div #caption-bar {
-		p#caption Reader's Card
+		p#caption Reading Summary
 		button#close-button ✕
 	}
 	div #content {
-		table #readers-table
-		p <<.label Reading time>> <<.value #reading-time>>
-		p <<.label Experience points>> <<.value #points>>
-		p <<.label Documents read>> <<.value #page-count>>
+		table {
+			colgroup {
+				col ^"width:30%"
+				col ^"width:20%"
+				col ^"width:10%"
+				col ^"width:20%"
+				col ^"width:10%"
+				col ^"width:10%"
+			}
+			thead {
+				tr {
+					th Page
+					th Reading Time
+					th Reading Pct
+					th Points
+					th Level
+					th Category
+				}
+			}
+			tbody #item-rows {
+			}
+			tfoot #item-totals {
+			}
+		}
 	}
 	div #footer {
 		p #message-text Your reading time and experience points 

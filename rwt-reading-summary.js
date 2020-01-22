@@ -23,11 +23,9 @@ export default class RwtReadingSummary extends HTMLElement {
 		// child elements
 		this.dialog = null;
 		this.closeButton = null;
-		this.readersTable = null;
+		this.itemRows = null;
+		this.itemTotals = null;
 		this.messageText = null;
-		this.readingTime = null;
-		this.points = null;
-		this.pageCount = null;
 
 		// properties
 		this.shortcutKey = null;
@@ -102,11 +100,9 @@ export default class RwtReadingSummary extends HTMLElement {
 	identifyChildren() {
 		this.dialog = this.shadowRoot.getElementById('dialog');
 		this.closeButton = this.shadowRoot.getElementById('close-button');
-		this.readersTable = this.shadowRoot.getElementById('readers-table');
+		this.itemRows = this.shadowRoot.getElementById('item-rows');
+		this.itemTotals = this.shadowRoot.getElementById('item-totals');
 		this.messageText = this.shadowRoot.getElementById('message-text');
-		this.readingTime = this.shadowRoot.getElementById('reading-time');
-		this.points = this.shadowRoot.getElementById('points');
-		this.pageCount = this.shadowRoot.getElementById('page-count');
 	}
 	
 	registerEventListeners() {
@@ -129,29 +125,24 @@ export default class RwtReadingSummary extends HTMLElement {
 	}
 
 	// Get the reader's data from browser localStorage
+	// show most recent items first
 	loadReadersData() {
 		var readersData = new ReadersData();			
 		var rc = readersData.readFromStorage();
 
-		this.readingTime.innerHTML = this.formatTime(readersData.readingTime);
-		this.points.innerHTML = readersData.experiencePoints;
-		this.pageCount.innerHTML = readersData.pageCount;
-		
 		var html = [];
 		for (let [filePath, readersItem] of readersData.itemsMap.entries()) {
 			html.push(this.formatTableRow(filePath, readersItem));
 		}
-		html.push(this.formatTableHeader());
-		
-		// show most recent items first
 		html.reverse();
-		this.readersTable.innerHTML = html.join('');
+		this.itemRows.innerHTML = html.join('');
+		this.itemTotals.innerHTML = this.formatTableFooter(readersData);
 		
 		// broadcast data to the outside
 		var detail = {
 			readingTime: this.formatTime(readersData.readingTime),
-			experiencePoints: readersData.experiencePoints,
-			pageCount: readersData.pageCount,
+			pointsObtained: readersData.pointsObtained,
+			pagesRead: readersData.pagesRead,
 			shortcutKey: this.shortcutKey
 		};
 		var customEvent = new CustomEvent('rwt-reading-summary-data', {detail: detail});
@@ -245,17 +236,27 @@ export default class RwtReadingSummary extends HTMLElement {
 		this.dialog.style.display = 'none';
 	}
 
-	formatTableHeader() {
-		return `<tr><th>Page</th><th>Category</th><th>Level</th><th>Points</th><th>Reading Pct</th><th>Reading Time</th></tr>`;
-	}
-	
 	//^ Format one reader's item as a row in the table 
 	formatTableRow(filePath, readersItem) {
 		var item = readersItem;
 		var percent = (item.percentRead * 100).toFixed(0);
 		var page = `<a href='${filePath}'>${item.title}</a>`;
 		var time = this.formatTime(item.readingTime);
-		return `<tr><td>${page}</td><td>${item.skillCategory}</td><td>${item.skillLevel}</td><td class='center'>${item.skillPoints}</td><td class='center'>${percent}%</td><td>${time}</td></tr>`;
+		
+		var pointsPossible = item.skillPoints;
+		var pointsObtained = Math.round(item.skillPoints * item.percentRead);
+		
+		return `<tr><td>${page}</td><td>${time}</td><td class='center'>${percent}%</td><td class='center'>${pointsObtained} of ${pointsPossible}</td><td>${item.skillLevel}</td><td>${item.skillCategory}</td></tr>`;
+	}
+
+	formatTableFooter(readersData) {
+		var pagesRead = readersData.pagesRead;
+		var pagesVisited = readersData.pagesVisited;
+		var pointsPossible = readersData.pointsPossible;
+		var pointsObtained = readersData.pointsObtained;
+		var readingTime = this.formatTime(readersData.readingTime);
+
+		return `<tr><th>${pagesRead} read / ${pagesVisited} visited</th><th>${readingTime}</th><th></th><th>${pointsObtained} of ${pointsPossible}</th><th></th><th></th></tr>`;
 	}
 
 	formatTime(seconds) {

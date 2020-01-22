@@ -20,8 +20,10 @@ export default class ReadersData {
 	
 	constructor() {
 		this.readingTime = 0;
-		this.experiencePoints = 0;
-		this.pageCount = 0;
+		this.pointsPossible = 0;
+		this.pointsObtained = 0;
+		this.pagesVisited = 0;
+		this.pagesRead = 0;
 		this.itemsMap = new Map();			// filePath => ReadersItem
     	Object.seal(this);
 	}
@@ -30,6 +32,7 @@ export default class ReadersData {
 		return localStorage.getItem(ReadersData.localStorageKey()) != null;
 	}
 	
+	// Read details and accumulate totals
 	//< true if localStorage exists
 	//< false if localStorage does not exist
 	readFromStorage() {
@@ -39,12 +42,15 @@ export default class ReadersData {
 			// cast the items of the map to be ReadersItems
 			for (let [itemKey, anonymousObj] of anonymousMap) {
 				this.itemsMap.set(itemKey, new ReadersItem(anonymousObj));
-				this.experiencePoints += (anonymousObj.skillPoints * anonymousObj.percentRead);
+				this.pointsPossible += anonymousObj.skillPoints;
+				this.pointsObtained += (anonymousObj.skillPoints * anonymousObj.percentRead);
 				this.readingTime += anonymousObj.readingTime;
+
+				this.pagesVisited++
 				if (anonymousObj.percentRead > 0)
-					this.pageCount++
+					this.pagesRead++
 			}
-			this.experiencePoints = Math.round(this.experiencePoints);
+			this.pointsObtained = Math.round(this.pointsObtained);
 			return true;
 		}
 		else

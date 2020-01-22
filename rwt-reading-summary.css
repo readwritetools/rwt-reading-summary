@@ -108,23 +108,17 @@
 /* ---------- readers card ---------- */
 #content {
 	height: calc(100% - var(--caption-bar-height) - var(--message-height));
-	overflow-y: auto;
-	padding: 1rem;
-}
-#content .label {
-	display: inline-block;
-	width: 8rem;
-	font-weight: 300;
-}
-#content .value {
-	font-weight: 700;
 }
 table {
 	display: block;
+	width: 100%;
+	height: 100%;
 	overflow-x: auto;
+	overflow-y: auto;
 	background-color: var(--light-black);
 	border: 1px solid var(--pure-black);
     border-collapse: collapse;
+    box-sizing: border-box;
 }
 #content::-webkit-scrollbar,
 table::-webkit-scrollbar {
