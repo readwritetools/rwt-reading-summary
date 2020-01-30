@@ -209,6 +209,6 @@ under the MIT License.
 <table>
 	<tr><td>Source code</td> 			<td><a href='https://github.com/readwritetools/rwt-reading-summary'>github</a></td></tr>
 	<tr><td>Package installation</td> <td><a href='https://www.npmjs.com/package/rwt-reading-summary'>NPM</a></td></tr>
-	<tr><td>Documentation</td> 		<td><a href='https://hub.readwritetools.com/components/shadowbox.blue'>Read Write Hub</a></td></tr>
+	<tr><td>Documentation</td> 		<td><a href='https://hub.readwritetools.com/components/reading-summary.blue'>Read Write Hub</a></td></tr>
 </table>
 
