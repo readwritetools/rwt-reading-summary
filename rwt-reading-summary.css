@@ -21,14 +21,7 @@
 	--yellow: #ffffa4;
 	--red: #ff3d3d;
 	
-	--caption-bar-height: 1.5rem;
-	--message-height: 1.5rem;
-
-	/* custom element variables */	
-	--width: 70vw;
-	--height: 50vh;
-	--bottom: 1rem;
-	--left: 1rem;
+	/* custom element decorations */
 	--color: var(--white);
 	--accent-color1: var(--yellow);
 	--accent-color2: var(--js-blue);
@@ -37,6 +30,14 @@
 	--accent-background2: var(--pure-black);
 	--accent-background3: var(--nav-black);
 	--accent-background4: var(--black);
+
+	/* custom element variables */	
+	--width: 70vw;
+	--height: 50vh;
+	--bottom: 1rem;
+	--left: 1rem;
+	--caption-bar-height: 1.5rem;
+	--message-height: 1.5rem;
 }
 
 #dialog {
