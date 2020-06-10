@@ -1,6 +1,6 @@
 {
   "name": "rwt-reading-summary",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Display reader's experience points and reading history, a W3C standard Web Component",
   "author": "Read Write Tools",
   "license": "MIT",
