@@ -77,9 +77,10 @@ export default class RwtReadingSummary extends HTMLElement {
 	// When the event is received, create an HTMLTemplateElement from the fetched HTML text,
 	// and resolve the promise with a DocumentFragment.
 	getHtmlFragment() {
+		var thisComponent = this;
+
 		return new Promise(async (resolve, reject) => {
-			
-			document.addEventListener('html-template-ready', () => {
+			thisComponent.addEventListener('html-template-ready', (event) => {
 				var template = document.createElement('template');
 				template.innerHTML = RwtReadingSummary.htmlText;
 				resolve(template.content);
@@ -92,10 +93,10 @@ export default class RwtReadingSummary extends HTMLElement {
 					return;
 				}
 				RwtReadingSummary.htmlText = await response.text();
-				document.dispatchEvent(new Event('html-template-ready'));
+				thisComponent.dispatchEvent(new CustomEvent('html-template-ready', {detail: 'RwtReadingSummary'}));
 			}
 			else if (RwtReadingSummary.htmlText != null) {
-				document.dispatchEvent(new Event('html-template-ready'));
+				thisComponent.dispatchEvent(new CustomEvent('html-template-ready', {detail: 'RwtReadingSummary'}));
 			}
 		});
 	}
@@ -104,9 +105,10 @@ export default class RwtReadingSummary extends HTMLElement {
 	// When the 'css-text-ready' event is received, create an HTMLStyleElement from the fetched CSS text,
 	// and resolve the promise with that element.
 	getCssStyleElement() {
-		return new Promise(async (resolve, reject) => {
+		var thisComponent = this;
 
-			document.addEventListener('css-text-ready', () => {
+		return new Promise(async (resolve, reject) => {
+			thisComponent.addEventListener('css-text-ready', (event) => {
 				var styleElement = document.createElement('style');
 				styleElement.innerHTML = RwtReadingSummary.cssText;
 				resolve(styleElement);
@@ -119,10 +121,10 @@ export default class RwtReadingSummary extends HTMLElement {
 					return;
 				}
 				RwtReadingSummary.cssText = await response.text();
-				document.dispatchEvent(new Event('css-text-ready'));
+				thisComponent.dispatchEvent(new CustomEvent('css-text-ready', {detail: 'RwtReadingSummary'}));
 			}
 			else if (RwtReadingSummary.cssText != null) {
-				document.dispatchEvent(new Event('css-text-ready'));
+				thisComponent.dispatchEvent(new CustomEvent('css-text-ready', {detail: 'RwtReadingSummary'}));
 			}
 		});
 	}
