@@ -31,9 +31,9 @@ export default class RwtReadingSummary extends HTMLElement {
 		this.messageText = null;
 
 		// properties
-		this.shortcutKey = null;
 		this.instance = RwtReadingSummary.elementInstance++;
 		this.collapseSender = `RwtReadingSummary ${this.instance}`;
+		this.shortcutKey = null;
 		this.urlPrefix = `${document.location.protocol}//${document.location.hostname}`;
 		
 		Object.seal(this);
@@ -188,8 +188,8 @@ export default class RwtReadingSummary extends HTMLElement {
 	
 	// close the dialog when user clicks on the document
 	onClickDocument(event) {
-		this.hideDialog();
 		event.stopPropagation();
+		this.hideDialog();
 	}
 	
 	// close the dialog when user presses the ESC key
@@ -209,15 +209,14 @@ export default class RwtReadingSummary extends HTMLElement {
 
 	//^ Send an event to close/hide all other registered popups
 	collapseOtherPopups() {
-		var collapseSender = this.collapseSender;
-		var collapseEvent = new CustomEvent('collapse-popup', {detail: { collapseSender }});
+		var collapseEvent = new CustomEvent('collapse-popup', {detail: this.collapseSender});
 		document.dispatchEvent(collapseEvent);
 	}
 	
 	//^ Listen for an event on the document instructing this dialog to close/hide
 	//  But don't collapse this dialog, if it was the one that generated it
 	onCollapsePopup(event) {
-		if (event.detail.sender == this.collapseSender)
+		if (event.detail == this.collapseSender)
 			return;
 		else
 			this.hideDialog();
