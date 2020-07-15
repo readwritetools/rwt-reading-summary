@@ -12,17 +12,31 @@
 import ReadersData from './readers-data.class.js';
 import ReadersItem from './readers-item.class.js';
 
+const Static = {
+	componentName:    'rwt-reading-summary',
+	elementInstance:  1,
+	htmlURL:          '/node_modules/rwt-reading-summary/rwt-reading-summary.blue',
+	cssURL:           '/node_modules/rwt-reading-summary/rwt-reading-summary.css',
+	htmlText:         null,
+	cssText:          null
+};
+
+Object.seal(Static);
+
 export default class RwtReadingSummary extends HTMLElement {
 
-	static elementInstance = 1;
-	static htmlURL  = '/node_modules/rwt-reading-summary/rwt-reading-summary.blue';
-	static cssURL   = '/node_modules/rwt-reading-summary/rwt-reading-summary.css';
-	static htmlText = null;
-	static cssText  = null;
-	
 	constructor() {
 		super();
 				
+		// guardrails
+		this.instance = Static.elementInstance++;
+		this.isComponentLoaded = false;
+
+		// properties
+		this.collapseSender = `${Static.componentName} ${this.instance}`;
+		this.shortcutKey = null;
+		this.urlPrefix = `${document.location.protocol}//${document.location.hostname}`;
+		
 		// child elements
 		this.dialog = null;
 		this.closeButton = null;
@@ -30,12 +44,6 @@ export default class RwtReadingSummary extends HTMLElement {
 		this.itemTotals = null;
 		this.messageText = null;
 
-		// properties
-		this.instance = RwtReadingSummary.elementInstance++;
-		this.collapseSender = `RwtReadingSummary ${this.instance}`;
-		this.shortcutKey = null;
-		this.urlPrefix = `${document.location.protocol}//${document.location.hostname}`;
-		
 		Object.seal(this);
 	}
 
@@ -58,6 +66,7 @@ export default class RwtReadingSummary extends HTMLElement {
 			this.registerEventListeners();
 			this.initializeShortcutKey();
 			this.loadReadersData();
+			this.sendComponentLoaded();
 		}
 		catch (err) {
 			console.log(err.message);
@@ -78,24 +87,24 @@ export default class RwtReadingSummary extends HTMLElement {
 	// and resolve the promise with a DocumentFragment.
 	getHtmlFragment() {
 		return new Promise(async (resolve, reject) => {
-			var htmlTemplateReady = `RwtReadingSummary-html-template-ready`;
+			var htmlTemplateReady = `${Static.componentName}-html-template-ready`;
 			
 			document.addEventListener(htmlTemplateReady, () => {
 				var template = document.createElement('template');
-				template.innerHTML = RwtReadingSummary.htmlText;
+				template.innerHTML = Static.htmlText;
 				resolve(template.content);
 			});
 			
 			if (this.instance == 1) {
-				var response = await fetch(RwtReadingSummary.htmlURL, {cache: "no-cache", referrerPolicy: 'no-referrer'});
+				var response = await fetch(Static.htmlURL, {cache: "no-cache", referrerPolicy: 'no-referrer'});
 				if (response.status != 200 && response.status != 304) {
-					reject(new Error(`Request for ${RwtReadingSummary.htmlURL} returned with ${response.status}`));
+					reject(new Error(`Request for ${Static.htmlURL} returned with ${response.status}`));
 					return;
 				}
-				RwtReadingSummary.htmlText = await response.text();
+				Static.htmlText = await response.text();
 				document.dispatchEvent(new Event(htmlTemplateReady));
 			}
-			else if (RwtReadingSummary.htmlText != null) {
+			else if (Static.htmlText != null) {
 				document.dispatchEvent(new Event(htmlTemplateReady));
 			}
 		});
@@ -106,24 +115,24 @@ export default class RwtReadingSummary extends HTMLElement {
 	// and resolve the promise with that element.
 	getCssStyleElement() {
 		return new Promise(async (resolve, reject) => {
-			var cssTextReady = `RwtReadingSummary-css-text-ready`;
+			var cssTextReady = `${Static.componentName}-css-text-ready`;
 
 			document.addEventListener(cssTextReady, () => {
 				var styleElement = document.createElement('style');
-				styleElement.innerHTML = RwtReadingSummary.cssText;
+				styleElement.innerHTML = Static.cssText;
 				resolve(styleElement);
 			});
 			
 			if (this.instance == 1) {
-				var response = await fetch(RwtReadingSummary.cssURL, {cache: "no-cache", referrerPolicy: 'no-referrer'});
+				var response = await fetch(Static.cssURL, {cache: "no-cache", referrerPolicy: 'no-referrer'});
 				if (response.status != 200 && response.status != 304) {
-					reject(new Error(`Request for ${RwtReadingSummary.cssURL} returned with ${response.status}`));
+					reject(new Error(`Request for ${Static.cssURL} returned with ${response.status}`));
 					return;
 				}
-				RwtReadingSummary.cssText = await response.text();
+				Static.cssText = await response.text();
 				document.dispatchEvent(new Event(cssTextReady));
 			}
-			else if (RwtReadingSummary.cssText != null) {
+			else if (Static.cssText != null) {
 				document.dispatchEvent(new Event(cssTextReady));
 			}
 		});
@@ -182,6 +191,22 @@ export default class RwtReadingSummary extends HTMLElement {
 		document.dispatchEvent(customEvent);
 	}
 
+	//^ Inform the document's custom element that it is ready for programmatic use 
+	sendComponentLoaded() {
+		this.isComponentLoaded = true;
+		this.dispatchEvent(new Event('component-loaded', {bubbles: true}));
+	}
+
+	//^ A Promise that resolves when the component is loaded
+	waitOnLoading() {
+		return new Promise((resolve) => {
+			if (this.isComponentLoaded == true)
+				resolve();
+			else
+				this.addEventListener('component-loaded', resolve);
+		});
+	}
+	
 	//-------------------------------------------------------------------------
 	// document events
 	//-------------------------------------------------------------------------
@@ -327,4 +352,4 @@ export default class RwtReadingSummary extends HTMLElement {
 	}
 }
 
-window.customElements.define('rwt-reading-summary', RwtReadingSummary);
+window.customElements.define(Static.componentName, RwtReadingSummary);
