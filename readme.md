@@ -172,22 +172,31 @@ rwt-reading-summary {
 }
 ```
 
-### Event interface
+### Life-cycle events
+
+The component issues life-cycle events.
+
+
+<dl>
+	<dt><code>component-loaded</code></dt>
+	<dd>Sent when the component is fully loaded and ready to be used. As a convenience you can use the <code>waitOnLoading()</code> method which returns a promise that resolves when the <code>component-loaded</code> event is received. Call this asynchronously with <code>await</code>.</dd>
+</dl>
+
+### Event controllers
 
 The dialog box can be controlled with its event interface.
 
-The component listens on DOM `document` for `toggle-reading-summary` messages. Upon
-receipt it will show or hide the dialog box.
 
-The component listens on DOM `document` for `keydown` messages. If the user presses
-the configured shortcut key (<kbd>F1</kbd>, <kbd>F2</kbd>, etc) it will show/hide
-the dialog box. The <kbd>Esc</kbd> key closes the dialog box.
-
-The component listens on DOM `document` for `collapse-popup` messages, which are
-sent by sibling dialog boxes. Upon receipt it will close itself.
-
-The component listens on DOM `document` for `click` messages. When the user clicks
-anywhere outside the dialog box, it closes itself.
+<dl>
+	<dt><code>toggle-reading-summary</code></dt>
+	<dd>The component listens on DOM <code>document</code> for <code>toggle-reading-summary</code> messages. Upon receipt it will show or hide the dialog box.</dd>
+	<dt><code>keydown</code></dt>
+	<dd>The component listens on DOM <code>document</code> for <code>keydown</code> messages. If the user presses the configured shortcut key (<kbd>F1</kbd>, <kbd>F2</kbd>, etc) it will show/hide the dialog box. The <kbd>Esc</kbd> key closes the dialog box.</dd>
+	<dt><code>collapse-popup</code></dt>
+	<dd>The component listens on DOM <code>document</code> for <code>collapse-popup</code> messages, which are sent by sibling dialog boxes. Upon receipt it will close itself.</dd>
+	<dt><code>click</code></dt>
+	<dd>The component listens on DOM <code>document</code> for <code>click</code> messages. When the user clicks anywhere outside the dialog box, it closes itself.</dd>
+</dl>
 
 ### License
 
