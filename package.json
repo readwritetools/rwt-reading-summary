@@ -1,7 +1,7 @@
 {
   "name": "rwt-reading-summary",
   "version": "1.0.12",
-  "description": "Display reader's experience points and reading history, a W3C standard Web Component",
+  "description": "Display reader's experience points and reading history, a standards-based DOM Component",
   "author": "Read Write Tools",
   "license": "MIT",
   "module": "rwt-reading-summary.js",
